@@ -1,0 +1,29 @@
+ul.items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ul.items > li > a {
+  margin-bottom: 15px;
+  display: flex;
+  color: initial;
+  text-decoration: initial;
+}
+ul.items > li > a > i {
+  padding: 7px 10px 0;
+}
+ul.items > li:hover {
+  color: orange;
+  cursor: pointer;
+}
+ul.items > li:hover h5 {
+  color: orange;
+}
+.item {
+  padding: 5px 5px 5px;
+  flex: 1;
+}
+.item h5 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}

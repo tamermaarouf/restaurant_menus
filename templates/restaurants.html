@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<head>
+	<!-- meta -->
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<!-- meta -->
+	<!-- styles -->
+	<!-- styles -->
+	<!-- favicons -->
+	<!-- favicons -->
+	<!-- scripts -->
+	<!-- scripts -->
+</head>
+<body>
+	<ul class="items">
+		{% for restaurant in restaurants %}
+		<li>
+			<div class="item">
+				<h5> {{ restaurant.name }}</h5>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</body>

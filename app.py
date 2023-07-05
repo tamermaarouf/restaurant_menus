@@ -6,9 +6,10 @@ from database_setup import app, db, MenuItem, Restaurant
 
 
 #------------------------> Controllers <-------------------
-@app.route('/restaurant')
-def restaurant():
-    restaurant_query = Restaurant.query.order_by(Restaurant.name).all()
+@app.route('/restaurants')
+def restaurants():
+    data = Restaurant.query.order_by(Restaurant.name).all()
+    return render_template('restaurants.html', restaurants=data)
 
 #------------------------> Launch <------------------------------------
 if __name__ == '__main__':
