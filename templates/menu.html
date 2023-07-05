@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<head>
+	<!-- meta -->
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<!-- meta -->
+	<!-- styles -->
+	<!-- styles -->
+	<!-- favicons -->
+	<!-- favicons -->
+	<!-- scripts -->
+	<!-- scripts -->
+</head>
+<body>
+	<a href="/restaurants/new">Make a New Restaurant Here</a></br> 
+	<ul class="items">
+		{% for restaurant in restaurants %}
+		<li>
+			<div class="item">
+				<h1>{{ restaurant.restaurants.name }}</h1>
+				<a href="{{url_for('newMenuItem', restaurant_id=restaurant.restaurants.id) }}">Create New Item</a>
+				</br> 
+				<h2>{{ restaurant.name }}</h2>
+				<h3>{{ restaurant.description }}</h3>
+				<h4>{{ restaurant.price }}</h4>
+				<a href="{{ url_for('editMenuItem',restaurant_id=restaurant.restaurants.id, menu_id=restaurant.id) }}">Edit</a>
+				</br>
+				<a href="{{ url_for('deleteMenuItem',restaurant_id=restaurant.restaurants.id, menu_id=restaurant.id) }}">Delete</a>
+				</br>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</body>
