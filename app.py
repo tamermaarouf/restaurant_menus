@@ -30,7 +30,7 @@ def newRestaurant_submission():
         db.session.commit()
     except Exception as e:
         error_in_insert = True
-        print(f'Exception "{e}" in create_venue_submission()')
+        print(f'Exception "{e}" in create_restaurant_submission()')
         db.session.rollback()
         print(sys.exc_info())        
     finally:
@@ -50,10 +50,33 @@ def editRestaurant(restaurant_id):
 
 # Task 3: Create a route for deleteRestaurant function here
 
-@app.route('/restaurant/<int:restaurant_id>/delete/')
+@app.route('/restaurant/<int:restaurant_id>/delete/', methods=['GET'])
 def deleteRestaurant(restaurant_id):
-    # return "page to delete a Restaurant. Task 3 complete!"
     return render_template('deleteRestaurant.html')
+
+@app.route('/restaurant/<int:restaurant_id>/delete/', methods=['POST'])
+def deleteRestaurant_submission(restaurant_id):
+    # TODO: Complete this endpoint for taking a restaurant_id, and using
+    # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
+    delete_restaurant = Restaurant.query.get(restaurant_id)
+    delete_name = delete_restaurant.name
+    print(delete_name)
+    error_in_insert = False
+    try:
+        db.session.delete(delete_restaurant)
+        db.session.commit()
+    except Exception as e:
+        error_in_insert = True
+        db.session.rollback()
+    finally:
+        db.session.close()
+    if error_in_insert:
+    # if error occur, error message pop up
+        flash('An error occurred deleting restaurant' + delete_name)
+    else:
+    # if success, success message pop up
+        flash('Successfully removed restaurant ' + delete_name)
+    return redirect(url_for('showRestaurant'))
 
 @app.route('/menu')
 @app.route('/menu/<int:restaurant_id>')
