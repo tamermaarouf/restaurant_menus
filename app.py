@@ -5,25 +5,51 @@ from flask import Flask, render_template, request, Response, flash, redirect, ur
 from database_setup import app, db, MenuItem, Restaurant
 
 
-#------------------------> Controllers <-------------------
+#------------------------> Controllers <-----------------------------------------------------------------------#
 @app.route('/')
-def index():
+@app.route('/restaurant')
+def showRestaurant():
     data = Restaurant.query.order_by(Restaurant.name).all()
     return render_template('index.html', restaurants=data)
 
+# Restaurant
+#---------------------------------------------------------------------------------------------------
+# Task 1: Create route for newRestaurant function here
+@app.route('/restaurant/new/', methods=['GET'])
+def newRestaurant():    
+    # return "page to create a new Restaurant. Task 1 complete!"
+    return render_template('newRestaurant.html')
 
+@app.route('/restaurant/new/', methods=['POST'])
+def newRestaurant_submission():    
+    # return "page to create a new Restaurant. Task 1 complete!"
+    return redirect(url_for('showRestaurant'))
+
+# Task 2: Create route for editRestaurant function here
+
+@app.route('/restaurant/<int:restaurant_id>/edit/')
+def editRestaurant(restaurant_id):
+    # return "page to edit Restaurant. Task 2 complete!"
+    return render_template('editRestaurant.html')
+
+# Task 3: Create a route for deleteRestaurant function here
+
+@app.route('/restaurant/<int:restaurant_id>/delete/')
+def deleteRestaurant(restaurant_id):
+    # return "page to delete a Restaurant. Task 3 complete!"
+    return render_template('deleteRestaurant.html')
+
+@app.route('/menu')
 @app.route('/menu/<int:restaurant_id>')
-def restaurants(restaurant_id):
+def menu(restaurant_id):
     data = MenuItem.query.filter(MenuItem.restaurant_id==restaurant_id)
     restaurant_name = Restaurant.query.get(restaurant_id)
     return render_template('menu.html', restaurants=data, name=restaurant_name)
 
 
 # Task 1: Create route for newMenuItem function here
-
 @app.route('/menu/<int:restaurant_id>/new/')
-def newMenuItem(restaurant_id):
-    
+def newMenuItem(restaurant_id):    
     return "page to create a new menu item. Task 1 complete!"
 
 # Task 2: Create route for editMenuItem function here

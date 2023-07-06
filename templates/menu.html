@@ -1,19 +1,6 @@
-<!DOCTYPE HTML>
-<head>
-	<!-- meta -->
-	<meta charset="utf-8">
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<!-- meta -->
-	<!-- styles -->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}"
-	<!-- styles -->
-	<!-- favicons -->
-	<!-- favicons -->
-	<!-- scripts -->
-	<!-- scripts -->
-</head>
-<body>
+{% extends 'layouts/main.html' %}
+{% block title %}Restaurant Menu{% endblock %}
+{% block content %}
 	<h1>{{name.name}}</h1>				
 	<a href="{{ url_for('newMenuItem',restaurant_id=name.id) }}">Create New Item</a>
 
@@ -30,4 +17,4 @@
 		</li>
 		{% endfor %}
 	</ul>
-</body>
+{% endblock %}

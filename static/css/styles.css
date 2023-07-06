@@ -1,20 +1,20 @@
 body {
-    font-family: sans-serif;
-    background-color: #333333
+    background-color: #333;
+    color: #FFF;
 }
-
+/*
 h1,
 h2,
 h3,
 h4 {
-    color: #ffffff;
+    color: #575757;
 }
 
-h1,
+ h1,
 h2 {
     font-family: 'georgia', serif;
     margin: 0;
-}
+} */
 
 h1 {
     border-bottom: 2px solid #eee;
