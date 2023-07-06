@@ -22,7 +22,6 @@ def newRestaurant():
 @app.route('/restaurant/new/', methods=['POST'])
 def newRestaurant_submission():
     new_Restaurant = request.form['name']
-    print(new_Restaurant)
     error_in_insert = False
     try:
         createRestaurant = Restaurant(name=new_Restaurant)
@@ -43,10 +42,29 @@ def newRestaurant_submission():
 
 # Task 2: Create route for editRestaurant function here
 
-@app.route('/restaurant/<int:restaurant_id>/edit/')
+@app.route('/restaurant/<int:restaurant_id>/edit/', methods=['GET'])
 def editRestaurant(restaurant_id):
-    # return "page to edit Restaurant. Task 2 complete!"
     return render_template('editRestaurant.html')
+
+@app.route('/restaurant/<int:restaurant_id>/edit/', methods=['POST'])
+def editRestaurant_submission(restaurant_id):
+    edit_restaurant = Restaurant.query.get(restaurant_id)
+    error_in_insert = False
+    try:
+        edit_restaurant.name = request.form['name']
+        db.session.commit()
+    except Exception as e:
+        error_in_insert = True
+        db.session.rollback()
+        print(e)
+        print(sys.exc_info())
+    finally:
+        db.session.close()
+    if error_in_insert:
+        flash('An error occurred. Restaurant could not be updated')
+    else:
+        flash('Restaurant was successfully updates')
+    return redirect(url_for('showRestaurant'))
 
 # Task 3: Create a route for deleteRestaurant function here
 
@@ -87,9 +105,38 @@ def menu(restaurant_id):
 
 
 # Task 1: Create route for newMenuItem function here
-@app.route('/menu/<int:restaurant_id>/new/')
-def newMenuItem(restaurant_id):    
-    return "page to create a new menu item. Task 1 complete!"
+@app.route('/menu/<int:restaurant_id>/new/', methods=['GET'])
+def newMenuItem(restaurant_id):
+    return render_template('newmenuitem.html')
+    # return "page to create a new menu item. Task 1 complete!"
+
+@app.route('/menu/<int:restaurant_id>/new/', methods=['POST'])
+def newMenuItem_submission(restaurant_id):
+    name = request.form['name']
+    description = request.form['description']
+    price = request.form['price']
+    course = request.form.get('course')
+    error_in_insert = False
+    try:
+        createMenuItem = MenuItem(name=name, description=description, 
+                                  price=price, course=course, restaurant_id=restaurant_id)
+        db.session.add(createMenuItem)
+        db.session.commit()
+    except Exception as e:
+        error_in_insert = True
+        print(f'Exception "{e}" in newMenuItem_submission')
+        db.session.rollback()
+        print(sys.exc_info())
+    finally:
+        db.session.close()
+        if error_in_insert:
+            flash('An error occurred. Menu Item' + request.form['name'] + 'could not be listed.')
+        else:
+            flash('Menu Item' + request.form['name'] + 'was successfully listed!')
+    return redirect(url_for('showRestaurant'))
+    # return "page to create a new menu item. Task 1 complete!"
+
+
 
 # Task 2: Create route for editMenuItem function here
 
@@ -99,9 +146,28 @@ def editMenuItem(restaurant_id, menu_id):
 
 # Task 3: Create a route for deleteMenuItem function here
 
-@app.route('/menu/<int:restaurant_id>/<int:menu_id>/delete/')
+@app.route('/menu/<int:restaurant_id>/<int:menu_id>/delete/', methods=['GET'])
 def deleteMenuItem(restaurant_id, menu_id):
-    return "page to delete a menu item. Task 3 complete!"
+    return render_template('deletemenuitem.html')
+
+@app.route('/menu/<int:restaurant_id>/<int:menu_id>/delete/', methods=['POST'])
+def deleteMenuItem_submission(restaurant_id, menu_id):
+    deleteMenuItem = MenuItem.query.get(menu_id)
+    deleteName = deleteMenuItem.name
+    error_in_delete = False
+    try:
+        db.session.delete(deleteMenuItem)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        error_in_delete = True
+    finally:
+        db.session.close()
+    if error_in_delete:
+        flash('An error occurred deleting Menu Item' + deleteName)
+    else:
+        flash('Successfully removed Menu Item' + deleteName)
+    return redirect(url_for('showRestaurant'))
 
 
 #------------------------> Launch <------------------------------------

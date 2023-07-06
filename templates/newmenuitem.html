@@ -1,10 +1,21 @@
-<html>
-	<body>
+{% extends 'layouts/main.html' %}
+{% block title %}Restaurant Menu{% endblock %}
+{% block content %}
 		<h1>New Menu Item </h1>
-		<form action="{{url_for('newMenuItem', restaurant_id=restaurant_id) }}" method="POST">
+		<form method="POST">
 			<p>Name:</p>
 			<input type='text' size='30' name='name'>
+			<p>Description:</p>
+			<input type="text" size="30" name="description">
+			<p>Price:</p>
+			<input type="text" size="30" name="price">
+			<p>Course:</p>
+			<ul class="items">
+				<li class="item"><input type="radio" name="course" value="Appetizer">Appetizer</li>
+				<li class="item"><input type="radio" name="course" value="Entree">Entree</li>
+				<li class="item"><input type="radio" name="course" value="Dessert">Dessert</li>
+				<li class="item"><input type="radio" name="course" value="Beverage">Beverage</li>
+			</ul>
 			<input type='submit' value='Create'>
 		</form>
-	</body>
-</html>
+{% endblock %}
