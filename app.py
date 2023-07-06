@@ -16,13 +16,29 @@ def showRestaurant():
 #---------------------------------------------------------------------------------------------------
 # Task 1: Create route for newRestaurant function here
 @app.route('/restaurant/new/', methods=['GET'])
-def newRestaurant():    
-    # return "page to create a new Restaurant. Task 1 complete!"
+def newRestaurant():
     return render_template('newRestaurant.html')
 
 @app.route('/restaurant/new/', methods=['POST'])
-def newRestaurant_submission():    
-    # return "page to create a new Restaurant. Task 1 complete!"
+def newRestaurant_submission():
+    new_Restaurant = request.form['name']
+    print(new_Restaurant)
+    error_in_insert = False
+    try:
+        createRestaurant = Restaurant(name=new_Restaurant)
+        db.session.add(createRestaurant)
+        db.session.commit()
+    except Exception as e:
+        error_in_insert = True
+        print(f'Exception "{e}" in create_venue_submission()')
+        db.session.rollback()
+        print(sys.exc_info())        
+    finally:
+        db.session.close()
+    if error_in_insert:
+        flash('An error occured. Restaurant ' + request.form['name'] + '  Could not be listed!!')
+    else:
+      flash('Restaurant ' + request.form['name'] + ' was successfully listed!')
     return redirect(url_for('showRestaurant'))
 
 # Task 2: Create route for editRestaurant function here
